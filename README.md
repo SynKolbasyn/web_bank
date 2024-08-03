@@ -13,3 +13,14 @@ But before starting, make sure that the ".env" file is located in the root folde
 ```bash
 docker compose up --build
 ```
+
+
+## How do I access the site?
+Enter the following address in the search bar in your favorite browser:
+
+```
+http://127.0.0.1:8080
+```
+
+
+## Congratulations, you have successfully launched this project

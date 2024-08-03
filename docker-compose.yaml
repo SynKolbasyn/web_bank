@@ -1,8 +1,17 @@
 services:
+  database:
+    image: "postgres:latest"
+    volumes:
+      - "./database/:/var/lib/postgresql/data/"
+    ports:
+      - "5432:5432"
+    env_file:
+      - ".env"
+
   kafka-1:
     image: "apache/kafka:latest"
-    hostname: kafka-1
-    container_name: kafka-1
+    hostname: "kafka-1"
+    container_name: "kafka-1"
     ports:
       - "29092:9092"
     environment:
@@ -23,8 +32,8 @@ services:
 
   kafka-2:
     image: "apache/kafka:latest"
-    hostname: kafka-2
-    container_name: kafka-2
+    hostname: "kafka-2"
+    container_name: "kafka-2"
     ports:
       - "39092:9092"
     environment:
@@ -65,14 +74,86 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
 
-  bank:
-    env_file:
-      - ".env"
+  nginx:
     build:
-      dockerfile: back_end/Dockerfile
+      dockerfile: "nginx/Dockerfile"
+    ports:
+      - "8080:80"
 
-  client:
+  front_end-1:
     env_file:
       - ".env"
     build:
-      dockerfile: front_end/Dockerfile
+      dockerfile: "services/front_end/Dockerfile"
+    ports:
+      - "5001:8080"
+
+  front_end-2:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/front_end/Dockerfile"
+    ports:
+      - "5002:8080"
+
+  front_end-3:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/front_end/Dockerfile"
+    ports:
+      - "5003:8080"
+
+  login-1:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/login/Dockerfile"
+
+  login-2:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/login/Dockerfile"
+
+  login-3:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/login/Dockerfile"
+
+  register-1:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/register/Dockerfile"
+
+  register-2:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/register/Dockerfile"
+
+  register-3:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/register/Dockerfile"
+
+  transfer-1:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/transfer/Dockerfile"
+
+  transfer-2:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/transfer/Dockerfile"
+
+  transfer-3:
+    env_file:
+      - ".env"
+    build:
+      dockerfile: "services/transfer/Dockerfile"

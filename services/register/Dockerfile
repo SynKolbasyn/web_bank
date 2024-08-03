@@ -2,15 +2,18 @@ FROM ubuntu:latest
 
 LABEL authors="Andrew Kozmin"
 
-WORKDIR /front_end/
+ENV HOME_DIR="register"
 
-COPY ./front_end/src/ /front_end/src/
-COPY ./front_end/Cargo.toml /front_end/
+WORKDIR /$HOME_DIR/
+
+COPY ./services/$HOME_DIR/src/ /$HOME_DIR/src/
+COPY ./services/$HOME_DIR/Cargo.toml /$HOME_DIR/
 
 RUN apt update && \
-    apt upgrade && \
+    apt upgrade -y && \
     apt install -y build-essential cmake curl zlib1g-dev libssl-dev libsasl2-dev libzstd-dev && \
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile complete && \
+    . "$HOME/.cargo/env" && \
     cargo build $CONFIG
 
 CMD . "$HOME/.cargo/env" && cargo run $CONFIG

@@ -1,0 +1,14 @@
+[package]
+name = "front_end"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.39.2", features = ["full"] }
+ntex = { version = "2.1.0", features = ["tokio"] }
+#ntex = { version = "2.1.0", features = ["tokio", "rustls"] }
+#rustls = "0.23.12"
+
+rdkafka = { version = "0.36.2", features = ["cmake-build"] }
+
+anyhow = "1.0.86"

@@ -1,0 +1,9 @@
+[package]
+name = "login"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rdkafka = { version = "0.36.2", features = ["cmake-build"] }
+
+anyhow = "1.0.86"

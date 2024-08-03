@@ -1,3 +1,5 @@
+use std::fs;
+
 use ntex::web;
 
 use anyhow::Result;
@@ -23,6 +25,12 @@ async fn start() -> Result<()> {
 
 #[web::get("/")]
 async fn site() -> impl web::Responder {
-    println!("connection");
-    web::HttpResponse::Ok().body("Hello world!")
+    match fs::read_to_string("./html/index.html") {
+        Ok(resp) => web::HttpResponse::Ok().body(resp),
+        Err(e) => {
+            let resp: String = format!("ERROR: {e}");
+            eprintln!("{resp}");
+            web::HttpResponse::NotFound().body(resp)
+        },
+    }
 }

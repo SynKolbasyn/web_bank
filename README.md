@@ -19,8 +19,13 @@ docker compose up --build
 Enter the following address in the search bar in your favorite browser:
 
 ```
-http://127.0.0.1:8080
+http://127.0.0.1
 ```
 
+Or, if you want to use a secure connection, enter the following address:
+
+```
+https://127.0.0.1
+```
 
 ## Congratulations, you have successfully launched this project

@@ -76,9 +76,17 @@ services:
 
   nginx:
     build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
       dockerfile: "nginx/Dockerfile"
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
 
   front_end-1:
     env_file:

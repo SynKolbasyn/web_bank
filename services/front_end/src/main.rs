@@ -1,8 +1,15 @@
-use std::fs;
+use std::{
+    fs::{self, File},
+    io::{self, BufReader},
+};
+
+use anyhow::{Result, Context};
 
 use ntex::web;
-
-use anyhow::Result;
+use rustls::{
+    ServerConfig,
+    pki_types::{CertificateDer, PrivateKeyDer},
+};
 
 
 #[ntex::main]
@@ -15,8 +22,21 @@ async fn main() {
 
 
 async fn start() -> Result<()> {
+    let cert: Vec<CertificateDer> = rustls_pemfile::certs(
+        &mut BufReader::new(&mut File::open("cert.crt")?)
+    ).collect::<Result<Vec<CertificateDer>, io::Error>>()?;
+
+    let key: PrivateKeyDer = rustls_pemfile::private_key(
+        &mut BufReader::new(&mut File::open("key.pem")?)
+    )?.context("Error initializing the private key")?;
+
+    let server_config: ServerConfig = ServerConfig::builder()
+        .with_no_client_auth()
+        .with_single_cert(cert, key)?;
+
     web::HttpServer::new(|| web::App::new().service(site))
-        .bind(("0.0.0.0", 8080))?
+        .workers(num_cpus::get())
+        .bind_rustls(("0.0.0.0", 8080), server_config)?
         .run()
         .await?;
     Ok(())

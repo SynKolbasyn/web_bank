@@ -1,5 +1,7 @@
 services:
-  database:
+  database-1:
+    hostname: "database-1"
+    container_name: "database-1"
     image: "postgres:latest"
     volumes:
       - "./database/:/var/lib/postgresql/data/"
@@ -75,6 +77,8 @@ services:
       KAFKA_LOG_DIRS: '/tmp/kraft-combined-logs'
 
   nginx:
+    hostname: "nginx"
+    container_name: "nginx"
     build:
       args:
         country_name: $COUNTRY_NAME
@@ -87,80 +91,144 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - front_end-1
+      - front_end-2
+      - front_end-3
 
   front_end-1:
+    hostname: "front_end-1"
+    container_name: "front_end-1"
     env_file:
       - ".env"
     build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+        config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
     ports:
       - "5001:8080"
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
 
   front_end-2:
+    hostname: "front_end-2"
+    container_name: "front_end-2"
     env_file:
       - ".env"
     build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+        config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
     ports:
       - "5002:8080"
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
 
   front_end-3:
+    hostname: "front_end-3"
+    container_name: "front_end-3"
     env_file:
       - ".env"
     build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+        config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
     ports:
       - "5003:8080"
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
 
   login-1:
+    hostname: "login-1"
+    container_name: "login-1"
     env_file:
       - ".env"
     build:
       dockerfile: "services/login/Dockerfile"
 
   login-2:
+    hostname: "login-2"
+    container_name: "login-2"
     env_file:
       - ".env"
     build:
       dockerfile: "services/login/Dockerfile"
 
   login-3:
+    hostname: "login-3"
+    container_name: "login-3"
     env_file:
       - ".env"
     build:
       dockerfile: "services/login/Dockerfile"
 
   register-1:
+    hostname: "register-1"
+    container_name: "register-1"
     env_file:
       - ".env"
     build:
       dockerfile: "services/register/Dockerfile"
 
   register-2:
+    hostname: "register-2"
+    container_name: "register-2"
     env_file:
       - ".env"
     build:
       dockerfile: "services/register/Dockerfile"
 
   register-3:
+    hostname: "register-3"
+    container_name: "register-3"
     env_file:
       - ".env"
     build:
       dockerfile: "services/register/Dockerfile"
 
   transfer-1:
+    hostname: "transfer-1"
+    container_name: "transfer-1"
     env_file:
       - ".env"
     build:
       dockerfile: "services/transfer/Dockerfile"
 
   transfer-2:
+    hostname: "transfer-2"
+    container_name: "transfer-2"
     env_file:
       - ".env"
     build:
       dockerfile: "services/transfer/Dockerfile"
 
   transfer-3:
+    hostname: "transfer-3"
+    container_name: "transfer-3"
     env_file:
       - ".env"
     build:

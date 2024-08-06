@@ -34,9 +34,14 @@ async fn start() -> Result<()> {
         .with_no_client_auth()
         .with_single_cert(cert, key)?;
 
-    web::HttpServer::new(|| web::App::new().service(site))
-        .workers(num_cpus::get())
-        .bind_rustls(("0.0.0.0", 8080), server_config)?
+    web::HttpServer::new(|| {
+        web::App::new()
+            .service(index)
+            .service(login)
+            .service(register)
+            .service(transfer)
+    })
+        .bind_rustls(("0.0.0.0", 443), server_config)?
         .run()
         .await?;
     Ok(())
@@ -44,13 +49,31 @@ async fn start() -> Result<()> {
 
 
 #[web::get("/")]
-async fn site() -> impl web::Responder {
+async fn index() -> impl web::Responder {
     match fs::read_to_string("./html/index.html") {
         Ok(resp) => web::HttpResponse::Ok().body(resp),
         Err(e) => {
             let resp: String = format!("ERROR: {e}");
             eprintln!("{resp}");
-            web::HttpResponse::NotFound().body(resp)
+            web::HttpResponse::InternalServerError().body(resp)
         },
     }
+}
+
+
+#[web::get("/login")]
+async fn login() -> impl web::Responder {
+    web::HttpResponse::Ok().body("login success")
+}
+
+
+#[web::get("/register")]
+async fn register() -> impl web::Responder {
+    web::HttpResponse::Ok().body("register success")
+}
+
+
+#[web::get("/transfer")]
+async fn transfer() -> impl web::Responder {
+    web::HttpResponse::Ok().body("transfer success")
 }

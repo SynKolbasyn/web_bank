@@ -88,6 +88,8 @@ services:
         organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
         common_name: $COMMON_NAME
       dockerfile: "nginx/Dockerfile"
+    volumes:
+      - "./images/:/var/www/images/"
     ports:
       - "80:80"
       - "443:443"
@@ -111,6 +113,8 @@ services:
         common_name: $COMMON_NAME
         config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
+    volumes:
+      - "./services/front_end/html/:/front_end/html/"
     ports:
       - "5001:8080"
     depends_on:
@@ -133,6 +137,8 @@ services:
         common_name: $COMMON_NAME
         config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
+    volumes:
+      - "./services/front_end/html/:/front_end/html/"
     ports:
       - "5002:8080"
     depends_on:
@@ -155,6 +161,8 @@ services:
         common_name: $COMMON_NAME
         config: $CONFIG
       dockerfile: "services/front_end/Dockerfile"
+    volumes:
+      - "./services/front_end/html/:/front_end/html/"
     ports:
       - "5003:8080"
     depends_on:
@@ -168,6 +176,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/login/Dockerfile"
 
   login-2:
@@ -176,6 +186,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/login/Dockerfile"
 
   login-3:
@@ -184,6 +196,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/login/Dockerfile"
 
   register-1:
@@ -192,6 +206,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/register/Dockerfile"
 
   register-2:
@@ -200,6 +216,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/register/Dockerfile"
 
   register-3:
@@ -208,6 +226,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/register/Dockerfile"
 
   transfer-1:
@@ -216,6 +236,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/transfer/Dockerfile"
 
   transfer-2:
@@ -224,6 +246,8 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/transfer/Dockerfile"
 
   transfer-3:
@@ -232,4 +256,6 @@ services:
     env_file:
       - ".env"
     build:
+      args:
+        config: $CONFIG
       dockerfile: "services/transfer/Dockerfile"

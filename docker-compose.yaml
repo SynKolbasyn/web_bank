@@ -2,70 +2,94 @@ version: "3.9"
 
 services:
   postgres-1:
-    image: "bitnami/postgresql-repmgr:latest"
     hostname: "postgres-1"
     container_name: "postgres-1"
+    build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+      dockerfile: "postgres/Dockerfile"
     ports:
       - "5432"
     volumes:
       - "./postgres/postgres_1_data/:/bitnami/postgresql"
+    env_file:
+      - ".env"
     environment:
-      POSTGRESQL_POSTGRES_PASSWORD: $POSTGRESQL_POSTGRES_PASSWORD
-      POSTGRESQL_USERNAME: $POSTGRESQL_USERNAME
-      POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
-      POSTGRESQL_DATABASE: $POSTGRESQL_DATABASE
-      REPMGR_PASSWORD: $REPMGR_PASSWORD
+      POSTGRESQL_TLS_CERT_FILE: "/tmp/cert.crt"
+      POSTGRESQL_TLS_KEY_FILE: "/tmp/key.pem"
       REPMGR_PRIMARY_HOST: "postgres-1"
       REPMGR_PRIMARY_PORT: "5432"
       REPMGR_PARTNER_NODES: "postgres-1,postgres-2:5432,postgres-3:5432"
       REPMGR_NODE_NAME: "postgres-1"
       REPMGR_NODE_NETWORK_NAME: "postgres-1"
       REPMGR_PORT_NUMBER: "5432"
+    restart: "always"
 
   postgres-2:
-    image: "bitnami/postgresql-repmgr:latest"
     hostname: "postgres-2"
     container_name: "postgres-2"
+    build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+      dockerfile: "postgres/Dockerfile"
     ports:
       - "5432"
     volumes:
       - "./postgres/postgres_2_data/:/bitnami/postgresql"
+    env_file:
+      - ".env"
     environment:
-      POSTGRESQL_POSTGRES_PASSWORD: $POSTGRESQL_POSTGRES_PASSWORD
-      POSTGRESQL_USERNAME: $POSTGRESQL_USERNAME
-      POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
-      POSTGRESQL_DATABASE: $POSTGRESQL_DATABASE
-      REPMGR_PASSWORD: $REPMGR_PASSWORD
+      POSTGRESQL_TLS_CERT_FILE: "/tmp/cert.crt"
+      POSTGRESQL_TLS_KEY_FILE: "/tmp/key.pem"
       REPMGR_PRIMARY_HOST: "postgres-1"
       REPMGR_PRIMARY_PORT: "5432"
       REPMGR_PARTNER_NODES: "postgres-1,postgres-2:5432,postgres-3:5432"
       REPMGR_NODE_NAME: "postgres-2"
       REPMGR_NODE_NETWORK_NAME: "postgres-2"
       REPMGR_PORT_NUMBER: "5432"
+    restart: "always"
 
   postgres-3:
-    image: "bitnami/postgresql-repmgr:latest"
     hostname: "postgres-3"
     container_name: "postgres-3"
+    build:
+      args:
+        country_name: $COUNTRY_NAME
+        state_of_province_name: $STATE_OR_PROVINCE_NAME
+        locality_name: $LOCALITY_NAME
+        organization_name: $ORGANIZATION_NAME
+        organizational_unit_name: $ORGANIZATIONAL_UNIT_NAME
+        common_name: $COMMON_NAME
+      dockerfile: "postgres/Dockerfile"
     ports:
       - "5432"
     volumes:
       - "./postgres/postgres_3_data/:/bitnami/postgresql"
+    env_file:
+      - ".env"
     environment:
-      POSTGRESQL_POSTGRES_PASSWORD: $POSTGRESQL_POSTGRES_PASSWORD
-      POSTGRESQL_USERNAME: $POSTGRESQL_USERNAME
-      POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
-      POSTGRESQL_DATABASE: $POSTGRESQL_DATABASE
-      REPMGR_PASSWORD: $REPMGR_PASSWORD
+      POSTGRESQL_TLS_CERT_FILE: "/tmp/cert.crt"
+      POSTGRESQL_TLS_KEY_FILE: "/tmp/key.pem"
       REPMGR_PRIMARY_HOST: "postgres-1"
       REPMGR_PRIMARY_PORT: "5432"
       REPMGR_PARTNER_NODES: "postgres-1,postgres-2:5432,postgres-3:5432"
       REPMGR_NODE_NAME: "postgres-3"
       REPMGR_NODE_NETWORK_NAME: "postgres-3"
       REPMGR_PORT_NUMBER: "5432"
+    restart: "always"
 
   kafka-1:
-    image: "bitnami/kafka:latest"
+    image: "bitnami/kafka:3.8"
     hostname: "kafka-1"
     container_name: "kafka-1"
     ports:
@@ -88,9 +112,10 @@ services:
       KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: "2"
     volumes:
       - "./kafka/kafka_1_data/:/bitnami/kafka"
+    restart: "always"
 
   kafka-2:
-    image: "bitnami/kafka:latest"
+    image: "bitnami/kafka:3.8"
     hostname: "kafka-2"
     container_name: "kafka-2"
     ports:
@@ -113,9 +138,10 @@ services:
       KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: "2"
     volumes:
       - "./kafka/kafka_2_data/:/bitnami/kafka"
+    restart: "always"
 
   kafka-3:
-    image: "bitnami/kafka:latest"
+    image: "bitnami/kafka:3.8"
     hostname: "kafka-3"
     container_name: "kafka-3"
     ports:
@@ -138,6 +164,7 @@ services:
       KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR: "2"
     volumes:
       - "./kafka/kafka_3_data/:/bitnami/kafka"
+    restart: "always"
 
   nginx:
     hostname: "nginx"
@@ -160,6 +187,7 @@ services:
       - front_end-1
       - front_end-2
       - front_end-3
+    restart: "always"
 
   front_end-1:
     hostname: "front_end-1"
@@ -184,6 +212,7 @@ services:
       - kafka-1
       - kafka-2
       - kafka-3
+    restart: "always"
 
   front_end-2:
     hostname: "front_end-2"
@@ -208,6 +237,7 @@ services:
       - kafka-1
       - kafka-2
       - kafka-3
+    restart: "always"
 
   front_end-3:
     hostname: "front_end-3"
@@ -232,6 +262,7 @@ services:
       - kafka-1
       - kafka-2
       - kafka-3
+    restart: "always"
 
   login-1:
     hostname: "login-1"

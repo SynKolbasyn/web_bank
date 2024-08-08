@@ -11,7 +11,7 @@ use rustls::{
     ServerConfig,
     pki_types::{CertificateDer, PrivateKeyDer},
 };
-
+use serde::Deserialize;
 
 #[ntex::main]
 async fn main() {
@@ -41,6 +41,9 @@ async fn start() -> Result<()> {
             .service(login)
             .service(register)
             .service(transfer)
+            .service(login_data)
+            .service(register_data)
+            .service(transfer_data)
     })
         .bind_rustls(("0.0.0.0", 443), server_config)?
         .run()
@@ -73,6 +76,24 @@ async fn transfer() -> impl Responder {
 }
 
 
+#[web::post("/login/")]
+async fn login_data(form: web::types::Form<LoginData>) -> impl Responder {
+    HttpResponse::Ok().body(format!("Login DONE!\n\nLogin: {}\nPassword: {}", form.login, form.password))
+}
+
+
+#[web::post("/register/")]
+async fn register_data(form: web::types::Form<RegisterData>) -> impl Responder {
+    HttpResponse::Ok().body(format!("Register DONE!\n\nLogin: {}\nPassword: {}", form.login, form.password))
+}
+
+
+#[web::post("/transfer/")]
+async fn transfer_data(form: web::types::Form<TransferData>) -> impl Responder {
+    HttpResponse::Ok().body(format!("Transfer DONE!\n\nLogin: {}\nAmount: {}", form.login, form.amount))
+}
+
+
 fn get_response<P: AsRef<Path>>(path: P) -> impl Responder {
     match fs::read_to_string(path) {
         Ok(resp) => HttpResponse::Ok().body(resp),
@@ -82,4 +103,25 @@ fn get_response<P: AsRef<Path>>(path: P) -> impl Responder {
             HttpResponse::InternalServerError().body(resp)
         },
     }
+}
+
+
+#[derive(Deserialize)]
+struct LoginData {
+    login: String,
+    password: String,
+}
+
+
+#[derive(Deserialize)]
+struct RegisterData {
+    login: String,
+    password: String,
+}
+
+
+#[derive(Deserialize)]
+struct TransferData {
+    login: String,
+    amount: String,
 }

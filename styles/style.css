@@ -1,0 +1,52 @@
+html {
+    font-family: "JetBrains Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+    background-color: #43AA8B;
+    color: #DB504A;
+    text-shadow: 3px 3px 3px black;
+    text-align: center;
+}
+
+
+header {
+    background-color: #254441;
+}
+
+
+nav {
+    background-color: #254441;
+}
+
+
+main {
+    background-color: #254441;
+}
+
+
+footer {
+    background-color: #254441;
+}
+
+
+ul > li {
+    display: inline-block;
+    padding: 16px;
+}
+
+
+li a {
+    text-decoration: none;
+}
+
+
+li a:hover {
+    background-color: #43AA8B;
+}
+
+
+a {
+    color: #DB504A;
+}

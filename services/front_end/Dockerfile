@@ -23,7 +23,6 @@ FROM rust
 
 ARG config
 
-COPY ./services/$HOME_DIR/html/ /$HOME_DIR/html/
 COPY ./services/$HOME_DIR/src/ /$HOME_DIR/src/
 COPY ./services/$HOME_DIR/Cargo.toml /$HOME_DIR/
 

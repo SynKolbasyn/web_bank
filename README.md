@@ -29,3 +29,4 @@ https://127.0.0.1
 ```
 
 ## Congratulations, you have successfully launched this project
+Wait a few minutes, because the containers with the database and kafka need to load

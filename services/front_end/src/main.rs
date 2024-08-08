@@ -1,11 +1,12 @@
 use std::{
     fs::{self, File},
     io::{self, BufReader},
+    path::Path,
 };
 
 use anyhow::{Result, Context};
 
-use ntex::web;
+use ntex::web::{self, HttpResponse, HttpServer, Responder};
 use rustls::{
     ServerConfig,
     pki_types::{CertificateDer, PrivateKeyDer},
@@ -34,7 +35,7 @@ async fn start() -> Result<()> {
         .with_no_client_auth()
         .with_single_cert(cert, key)?;
 
-    web::HttpServer::new(|| {
+    HttpServer::new(|| {
         web::App::new()
             .service(index)
             .service(login)
@@ -49,31 +50,36 @@ async fn start() -> Result<()> {
 
 
 #[web::get("/")]
-async fn index() -> impl web::Responder {
-    match fs::read_to_string("./html/index.html") {
-        Ok(resp) => web::HttpResponse::Ok().body(resp),
+async fn index() -> impl Responder {
+    get_response("./html/index.html")
+}
+
+
+#[web::get("/login/")]
+async fn login() -> impl Responder {
+    get_response("./html/login.html")
+}
+
+
+#[web::get("/register/")]
+async fn register() -> impl Responder {
+    get_response("./html/register.html")
+}
+
+
+#[web::get("/transfer/")]
+async fn transfer() -> impl Responder {
+    get_response("./html/transfer.html")
+}
+
+
+fn get_response<P: AsRef<Path>>(path: P) -> impl Responder {
+    match fs::read_to_string(path) {
+        Ok(resp) => HttpResponse::Ok().body(resp),
         Err(e) => {
             let resp: String = format!("ERROR: {e}");
             eprintln!("{resp}");
-            web::HttpResponse::InternalServerError().body(resp)
+            HttpResponse::InternalServerError().body(resp)
         },
     }
-}
-
-
-#[web::get("/login")]
-async fn login() -> impl web::Responder {
-    web::HttpResponse::Ok().body("login success")
-}
-
-
-#[web::get("/register")]
-async fn register() -> impl web::Responder {
-    web::HttpResponse::Ok().body("register success")
-}
-
-
-#[web::get("/transfer")]
-async fn transfer() -> impl web::Responder {
-    web::HttpResponse::Ok().body("transfer success")
 }

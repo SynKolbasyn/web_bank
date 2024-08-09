@@ -5,48 +5,103 @@ html {
     font-style: normal;
 
     background-color: #43AA8B;
-    color: #DB504A;
-    text-shadow: 3px 3px 3px black;
+    color: #dc534e;
+    text-shadow: 3px 2px 1px #102029;
     text-align: center;
 }
 
 
-header {
-    background-color: #254441;
+footer {
+    background-color: #dcdbc7;
+    color: #254441;
+    text-shadow: 1px 1px 1px #102029;
+    padding: 1px;
+    margin: 0.5% 10% 0 10%;
 }
 
+header {
+    color: #dcdbc7;
+    background-color: #dc534e;
+    font-size: 1.3rem;
+    margin-left: 0%;
+    margin-right: 0%;}
 
-nav {
-    background-color: #254441;
+
+nav {background-color: #254441;
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 1rem;
 }
 
 
 main {
-    background-color: #254441;
-}
+    background-color: #dc534e;
+    color: #dcdbc7;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 2rem;
+    padding: 1px;
+    margin: 9% 0 9% 0;}
 
-
-footer {
-    background-color: #254441;
-}
+#widerpage {background-color: #dc534e;
+    color: #dcdbc7;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-size: 1.9rem;
+    padding: 0;
+    margin: 8% 0 8% 0;}
 
 
 ul > li {
-    display: inline-block;
-    padding: 16px;
+    display:inline-table;
+    padding: 20px;
 }
 
 
 li a {
     text-decoration: none;
+    font-size: 1.5rem;
+}
+
+
+#indexmenu li a{text-decoration: none;
+    font-size: 2rem;}
+
+
+#indexmenu {
+    background-color: #254441;
+    margin: 0% 10% 0% 10%;
+    padding: 0px;
 }
 
 
 li a:hover {
-    background-color: #43AA8B;
+    background-color: #dcdbc7;
 }
 
 
 a {
-    color: #DB504A;
+    color: #dc534e;
 }
+
+
+button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    border: 0;
+    border-radius: 5px;
+    background: #dcdbc7;
+    color: #dc534e;
+    padding: 6px 16px;
+    text-shadow: 1px 1px 1px #102029;
+    font-size: 16px;
+    font-family: "JetBrains Mono", monospace;
+    font-weight:550;}
+
+input {
+    -webkit-appearance: none;
+    border: 1px #dcdbc7;
+    border-radius: 0;
+    
+    }

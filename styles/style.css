@@ -74,6 +74,9 @@ li a {
     padding: 0px;
 }
 
+#transfermain {
+    margin: 5.5% 0 5.5% 0;
+}
 
 li a:hover {
     background-color: #dcdbc7;
@@ -103,5 +106,4 @@ input {
     -webkit-appearance: none;
     border: 1px #dcdbc7;
     border-radius: 0;
-    
     }
